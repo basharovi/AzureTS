@@ -13,19 +13,19 @@ namespace AzureTS.API.Models
         }
 
         public string Name { get; set; }
-        public string Long { get; set; }
-        public string Lat { get; set; }
-        public string Head { get; set; }
-        public string Speed { get; set; }
+        public double Long { get; set; }
+        public double Lat { get; set; }
+        public double Head { get; set; }
+        public double Speed { get; set; }
         public string Time { get; set; }
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
         {
             Name = properties["name"].StringValue;
-            Long = properties["long"].StringValue;
-            Lat = properties["lat"].StringValue;
-            Head = properties["head"].StringValue;
-            Speed = properties["speed"].StringValue;
+            Long = (double)properties["long"].DoubleValue;
+            Lat = (double)properties["lat"].DoubleValue;
+            Head = (double)properties["head"].DoubleValue;
+            Speed = (double)properties["speed"].DoubleValue;
             Time = properties["time"].StringValue;
         }
     }

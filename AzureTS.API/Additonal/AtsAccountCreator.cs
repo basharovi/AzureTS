@@ -3,7 +3,7 @@ using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace AzureTS.API
+namespace AzureTS.API.Additonal
 {
     public class AtsAccountCreator
     {
