@@ -7,16 +7,21 @@ using System.Collections.Generic;
 namespace AzureTS.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-
     public class HomeController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<SoloEntity> GetAll()
-        {
-            var dataOperation = new DataOperationService(Constants.TableName);
+        private readonly DataOperationService _dataOperationService;
 
-            return dataOperation.GetAll();
+        public HomeController()
+        {
+            _dataOperationService = new DataOperationService(Constants.TableName);
         }
+
+        [HttpGet]
+        [Route("api/[controller]/GetAll")]
+        public IEnumerable<SoloEntity> GetAll() => _dataOperationService.GetAll();
+
+        [HttpGet]
+        [Route("api/[controller]/GetFiltered")]
+        public dynamic GetFiltered(string name) => _dataOperationService.GetFiltered(name);
     }
 }
