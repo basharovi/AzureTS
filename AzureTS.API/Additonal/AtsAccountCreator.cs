@@ -7,16 +7,16 @@ namespace AzureTS.API.Additonal
 {
     public class AtsAccountCreator
     {
-        private const string CONNECTION_STRING_NAME = "AzureTableStorage";
-
         public static CloudStorageAccount CreateAccount()
         {
             CloudStorageAccount storageAccount;
 
             try
             {
-                var connectionString = Startup.Configuration.GetConnectionString(CONNECTION_STRING_NAME);
+                var connectionString = Startup.Configuration.GetConnectionString(Constants.ConncetionStringName);
                 storageAccount = CloudStorageAccount.Parse(connectionString);
+
+                Log.Information("Conncetion String Format is OK!");
             }
             catch (FormatException)
             {

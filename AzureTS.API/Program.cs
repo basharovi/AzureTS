@@ -1,3 +1,4 @@
+using AzureTS.API.Additonal;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -10,7 +11,7 @@ namespace AzureTS.API
     {
         public static void Main(string[] args)
         {
-            var env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT", EnvironmentVariableTarget.Process);
+            var env = Environment.GetEnvironmentVariable(Constants.EnvironmentVariableName, EnvironmentVariableTarget.Process);
 
             var configBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
