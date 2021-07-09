@@ -11,7 +11,7 @@ namespace AzureTS.API
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; private set; }
+        public static IConfiguration Configuration { get; private set; }
         public IWebHostEnvironment WebHostEnvironment { get; private set; }
 
         public Startup(IWebHostEnvironment env)
