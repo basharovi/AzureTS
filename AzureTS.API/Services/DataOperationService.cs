@@ -36,6 +36,11 @@ namespace AzureTS.API.Services
 
             var entities = _cloudTable.ExecuteQuerySegmented(query, null);
 
+            //
+            var entities_123 = _cloudTable.ExecuteQuery(new TableQuery<SoloEntity>()).Where(x => x.Name == name).ToList();
+
+            //
+
             return entities;
         }
     }
