@@ -1,8 +1,7 @@
 export const mapConstants =
 {
-  mapCenter: [122.7875, -0.9516],
-  lan: -122.486052,
-  lat: 37.830348,
+  lat: 103.84,
+  long: 1.2999,
   mapZoom: 15,
   maxSiteShowInMultiSelectDropdown: 5,
 //   style: 'mapbox://styles/louisphan/cjx1hsiii17ng1cqy85xmrw20',

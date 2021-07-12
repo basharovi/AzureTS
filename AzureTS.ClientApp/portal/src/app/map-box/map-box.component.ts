@@ -16,7 +16,7 @@ export class MapBoxComponent implements OnInit {
   ngOnInit(): void {
     this.initializeMap();
 
-    this.addGeoJsonLine();
+    // this.addGeoJsonLine();
   }
 
   initializeMap() {
@@ -25,7 +25,7 @@ export class MapBoxComponent implements OnInit {
       accessToken: mapConst.accessToken,
       container: "map",
       style: mapConst.style,
-      center: [mapConst.lan, mapConst.lat],
+      center: [mapConst.lat, mapConst.long],
       zoom: mapConst.mapZoom,
       attributionControl: false,
     });
