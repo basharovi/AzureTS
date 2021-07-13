@@ -12,9 +12,13 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) { }
 
-  fetchAllData(){
+  fetchAllData() {
+    // this.httpClient.get(this.baseUrl + "api/Home/GetAll")
+    //   .toPromise()
+    //   .then(x => this.entities = x as Entity[]);
+
     this.httpClient.get(this.baseUrl + "api/Home/GetAll")
-    .toPromise()
-    .then(x => this.entities = x as Entity[]);
+      .subscribe(response => this.entities = response as Entity[]
+        );
   }
 }

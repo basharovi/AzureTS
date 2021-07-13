@@ -4,6 +4,7 @@ using Microsoft.Azure.Cosmos.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AzureTS.API.Services
 {
@@ -19,11 +20,12 @@ namespace AzureTS.API.Services
             _cloudTable = tableClient.GetTableReference(tableName);
         }
 
-        public List<SoloEntity> GetAll()
+        public async Task<dynamic> GetAll()
         {
-            var entities = _cloudTable.ExecuteQuery(new TableQuery<SoloEntity>()).ToList();
+            var tableQuery = new TableQuery<SoloEntity>();
+            var data = await _cloudTable.ExecuteQuerySegmentedAsync(tableQuery, null);
 
-            return entities;
+            return data;
         }
 
         public dynamic GetFiltered(string name, DateTime? date = null)

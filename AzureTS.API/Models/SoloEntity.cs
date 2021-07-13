@@ -13,7 +13,7 @@ namespace AzureTS.API.Models
         }
 
         public string Name { get; set; }
-        public double Long { get; set; }
+        public double Lng { get; set; }
         public double Lat { get; set; }
         public double Head { get; set; }
         public double Speed { get; set; }
@@ -22,7 +22,7 @@ namespace AzureTS.API.Models
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
         {
             Name = properties["name"].StringValue;
-            Long = (double)properties["long"].DoubleValue;
+            Lng = (double)properties["long"].DoubleValue;
             Lat = (double)properties["lat"].DoubleValue;
             Head = (double)properties["head"].DoubleValue;
             Speed = (double)properties["speed"].DoubleValue;

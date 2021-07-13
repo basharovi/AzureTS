@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { ApiService } from '../shared/api.service';
-import { mapConstants as mapConst } from './../environments/environment';
+import { MapConstants, mapConstants as mapConst } from './../environments/environment';
 
 @Component({
   selector: 'app-map-box',
@@ -11,13 +11,19 @@ import { mapConstants as mapConst } from './../environments/environment';
 export class MapBoxComponent implements OnInit {
 
   map: any;
+  cordinates: [number[]] = [[]];
+  mapConstants: MapConstants;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {
+    this.mapConstants = new MapConstants();
+  }
 
   ngOnInit(): void {
     this.initializeMap();
 
     this.apiService.fetchAllData();
+
+    // this.mapEntites();
 
     // this.addGeoJsonLine();
   }
@@ -28,40 +34,40 @@ export class MapBoxComponent implements OnInit {
       accessToken: mapConst.accessToken,
       container: "map",
       style: mapConst.style,
-      center: [mapConst.lat, mapConst.long],
+      center: [mapConst.long, mapConst.lat],
       zoom: mapConst.mapZoom,
-      attributionControl: false,
+      attributionControl: false
     });
 
   }
 
   addGeoJsonLine() {
+
+    this.map.addSource('route', this.mapConstants.geoJsonObject);
+    this.map.addLayer(this.mapConstants.lineObject);
+
     this.map.on('load', () => {
-      this.map.addSource('route', {
-        'type': 'geojson',
-        'data': {
-          'type': 'Feature',
-          'properties': {},
-          'geometry': {
-            'type': 'LineString',
-            'coordinates': this.apiService.entities
-          }
-        }
-      });
-      this.map.addLayer({
-        'id': 'route',
-        'type': 'line',
-        'source': 'route',
-        'layout': {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        'paint': {
-          'line-color': '#888',
-          'line-width': 8
-        }
-      });
     });
+  }
+
+  mapEntites() {
+    // let mapped = this.apiService.entities.map(({ lat, lng }) => ({ lng, lat }));
+    // this.mapConstants.geoJsonObject.data.geometry.coordinates = mapped;
+
+    const cordinates = [] as any;
+    let entities = this.apiService.entities;
+
+    for (let i = 0; i < 10; i++) {
+      cordinates.push([entities[i].lng, entities[i].lat]);
+    }
+
+    this.mapConstants.geoJsonObject.data.geometry.coordinates = cordinates;
+  }
+
+  onClick() {
+    this.mapEntites();
+
+    this.addGeoJsonLine();
   }
 
 }

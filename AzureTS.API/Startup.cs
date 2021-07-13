@@ -47,6 +47,11 @@ namespace AzureTS.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AzureTS.API v1"));
             }
 
+            app.UseCors(options =>
+                options.WithOrigins("http://localhost:4200")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

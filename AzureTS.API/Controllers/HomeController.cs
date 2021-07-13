@@ -3,6 +3,7 @@ using AzureTS.API.Models;
 using AzureTS.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AzureTS.API.Controllers
 {
@@ -18,7 +19,11 @@ namespace AzureTS.API.Controllers
 
         [HttpGet]
         [Route("api/[controller]/GetAll")]
-        public IEnumerable<SoloEntity> GetAll() => _dataOperationService.GetAll();
+        public async Task<IActionResult> GetAll()
+        {
+            var data = await _dataOperationService.GetAll();
+            return Ok(data);
+        }
 
         [HttpGet]
         [Route("api/[controller]/GetFiltered")]
