@@ -1,8 +1,8 @@
 export const mapConstants =
 {
-  lat: 1.2999,
-  long: 103.84,
-  mapZoom: 12,
+  lat: 1.338837,
+  long: 103.830659,
+  mapZoom: 10.75,
   maxSiteShowInMultiSelectDropdown: 5,
   //   style: 'mapbox://styles/louisphan/cjx1hsiii17ng1cqy85xmrw20',
   style: 'mapbox://styles/mapbox/streets-v11',
@@ -32,8 +32,8 @@ export class MapConstants {
       'line-cap': 'round'
     },
     'paint': {
-      'line-color': '#888',
-      'line-width': 8
+      'line-color': '#006400',
+      'line-width': 5
     }
   }
 }

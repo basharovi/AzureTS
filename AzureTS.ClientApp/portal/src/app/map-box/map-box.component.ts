@@ -11,7 +11,6 @@ import { MapConstants, mapConstants as mapConst } from './../environments/enviro
 export class MapBoxComponent implements OnInit {
 
   map: any;
-  cordinates: [number[]] = [[]];
   mapConstants: MapConstants;
 
   constructor(private apiService: ApiService) {
@@ -62,6 +61,9 @@ export class MapBoxComponent implements OnInit {
     }
 
     this.mapConstants.geoJsonObject.data.geometry.coordinates = cordinates;
+
+    console.log(cordinates);
+    console.log(this.mapConstants.geoJsonObject.data.geometry.coordinates);
   }
 
   onClick() {
