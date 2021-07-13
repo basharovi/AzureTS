@@ -20,12 +20,23 @@ namespace AzureTS.API.Services
             _cloudTable = tableClient.GetTableReference(tableName);
         }
 
-        public async Task<dynamic> GetAll()
+        public async Task<List<SoloEntity>> GetAll()
         {
-            var tableQuery = new TableQuery<SoloEntity>();
-            var data = await _cloudTable.ExecuteQuerySegmentedAsync(tableQuery, null);
+            TableContinuationToken token = null;
 
-            return data;
+            var entities = new List<SoloEntity>();
+            var tableQuery = new TableQuery<SoloEntity>();
+
+            do
+            {
+                var queryResult = await _cloudTable.ExecuteQuerySegmentedAsync(tableQuery, token);
+
+                entities.AddRange(queryResult.Results);
+                token = queryResult.ContinuationToken;
+
+            } while (token != null);
+
+            return entities;
         }
 
         public dynamic GetFiltered(string name, DateTime? date = null)
