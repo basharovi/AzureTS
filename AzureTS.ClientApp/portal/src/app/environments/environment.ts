@@ -1,10 +1,8 @@
 export const mapConstants =
 {
-  lat: 1.338837,
-  long: 103.830659,
-  mapZoom: 10.75,
-  maxSiteShowInMultiSelectDropdown: 5,
-  //   style: 'mapbox://styles/louisphan/cjx1hsiii17ng1cqy85xmrw20',
+  lat: 1.34577,
+  long: 103.765,
+  mapZoom: 11.5,
   style: 'mapbox://styles/mapbox/streets-v11',
   accessToken: 'pk.eyJ1Ijoic2ZtcyIsImEiOiJjand2czlxMzIwNGZsNDRwZGx2c3gwNWExIn0.aZXFKeOd42x8kkvl1udyKQ'
 };
@@ -33,7 +31,7 @@ export class MapConstants {
     },
     'paint': {
       'line-color': '#006400',
-      'line-width': 5
+      'line-width': 2
     }
   }
 }

@@ -20,7 +20,7 @@ namespace AzureTS.API.Services
             _cloudTable = tableClient.GetTableReference(tableName);
         }
 
-        public async Task<List<SoloEntity>> GetAll()
+        public List<SoloEntity> GetAll()
         {
             TableContinuationToken token = null;
 
@@ -29,7 +29,7 @@ namespace AzureTS.API.Services
 
             do
             {
-                var queryResult = await _cloudTable.ExecuteQuerySegmentedAsync(tableQuery, token);
+                var queryResult = _cloudTable.ExecuteQuerySegmented(tableQuery, token);
 
                 entities.AddRange(queryResult.Results);
                 token = queryResult.ContinuationToken;

@@ -15,17 +15,16 @@ export class MapBoxComponent implements OnInit {
 
   constructor(private apiService: ApiService) {
     this.mapConstants = new MapConstants();
+    this.apiService.fetchAllData();
   }
 
   ngOnInit(): void {
     this.initializeMap();
 
-    this.apiService.fetchAllData();
-
     // this.mapEntites();
-
-    // this.addGeoJsonLine();
   }
+
+  delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   initializeMap() {
 
@@ -43,33 +42,37 @@ export class MapBoxComponent implements OnInit {
   addGeoJsonLine() {
 
     this.map.addSource('route', this.mapConstants.geoJsonObject);
-    this.map.addLayer(this.mapConstants.lineObject);
+    console.log('Source Added');
 
-    this.map.on('load', () => {
-    });
+    this.map.addLayer(this.mapConstants.lineObject);
+    console.log('Layer Added');
   }
 
-  mapEntites() {
-    // let mapped = this.apiService.entities.map(({ lat, lng }) => ({ lng, lat }));
-    // this.mapConstants.geoJsonObject.data.geometry.coordinates = mapped;
+  async mapEntites() {
 
-    const cordinates = [] as any;
-    let entities = this.apiService.entities;
-
-    for (let i = 0; i < 10; i++) {
-      cordinates.push([entities[i].lng, entities[i].lat]);
+    // wait until backend datas are processed;
+    if(this.apiService.entities.length < 1){
+      await this.delay(2 * 1000);
+      this.mapEntites();
+      return;
     }
+    const cordinates = [] as any;
+
+    this.apiService.entities.forEach(entity => {
+      cordinates.push([entity.lng, entity.lat]);
+    });
 
     this.mapConstants.geoJsonObject.data.geometry.coordinates = cordinates;
-
-    console.log(cordinates);
-    console.log(this.mapConstants.geoJsonObject.data.geometry.coordinates);
-  }
-
-  onClick() {
-    this.mapEntites();
 
     this.addGeoJsonLine();
   }
 
+  onClick = () => {
+    this.mapEntites();
+  };
+
+  onClickRemove = () => {
+    this.map.removeLayer('route');
+    this.map.removeSource('route');
+  };
 }

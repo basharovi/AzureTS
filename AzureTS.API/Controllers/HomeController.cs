@@ -19,9 +19,9 @@ namespace AzureTS.API.Controllers
 
         [HttpGet]
         [Route("api/[controller]/GetAll")]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var data = await _dataOperationService.GetAll();
+            var data = _dataOperationService.GetAll();
             return Ok(data);
         }
 
