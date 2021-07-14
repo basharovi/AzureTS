@@ -21,7 +21,7 @@ export class MapBoxComponent implements OnInit {
   ngOnInit(): void {
     this.initializeMap();
 
-    // this.mapEntites();
+    this.mapEntites();
   }
 
   delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -68,7 +68,7 @@ export class MapBoxComponent implements OnInit {
   }
 
   onClick = () => {
-    this.mapEntites();
+    // this.mapEntites();
   };
 
   onClickRemove = () => {
