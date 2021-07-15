@@ -14,11 +14,8 @@ export class ApiService {
 
   fetchAllData() {
 
-    // this.entities = this.httpClient.get(this.baseUrl + "api/Home/GetAll");
-    
-    this.httpClient.get(this.baseUrl + "api/Home/GetAll")
+    this.httpClient.get(this.baseUrl + "api/Home/FetchAzureData")
       .subscribe(response => this.entities = response as Entity[]
         );
-    console.log('requested to api!');
   }
 }

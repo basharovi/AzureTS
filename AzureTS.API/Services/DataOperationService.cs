@@ -20,12 +20,16 @@ namespace AzureTS.API.Services
             _cloudTable = tableClient.GetTableReference(tableName);
         }
 
-        public List<SoloEntity> GetAll()
+        public dynamic GetAll(string? name)
         {
             TableContinuationToken token = null;
-
             var entities = new List<SoloEntity>();
+
             var tableQuery = new TableQuery<SoloEntity>();
+
+            if (!string.IsNullOrWhiteSpace(name))
+                tableQuery = tableQuery.Where(TableQuery.GenerateFilterCondition(
+                    "name", QueryComparisons.Equal, name));
 
             do
             {
@@ -35,24 +39,6 @@ namespace AzureTS.API.Services
                 token = queryResult.ContinuationToken;
 
             } while (token != null);
-
-            return entities;
-        }
-
-        public dynamic GetFiltered(string name, DateTime? date = null)
-        {
-            var query = new TableQuery<SoloEntity>().Where(TableQuery.GenerateFilterCondition(
-                                    "name",
-                                    QueryComparisons.Equal,
-                                    name
-                                  ));
-
-            var entities = _cloudTable.ExecuteQuerySegmented(query, null);
-
-            //
-            var entities_123 = _cloudTable.ExecuteQuery(new TableQuery<SoloEntity>()).Where(x => x.Name == name).ToList();
-
-            //
 
             return entities;
         }

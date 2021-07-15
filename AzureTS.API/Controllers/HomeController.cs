@@ -1,9 +1,6 @@
 ﻿using AzureTS.API.Additonal;
-using AzureTS.API.Models;
 using AzureTS.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace AzureTS.API.Controllers
 {
@@ -18,15 +15,11 @@ namespace AzureTS.API.Controllers
         }
 
         [HttpGet]
-        [Route("api/[controller]/GetAll")]
-        public IActionResult GetAll()
+        [Route("api/[controller]/FetchAzureData")]
+        public IActionResult GetAll(string? name)
         {
-            var data = _dataOperationService.GetAll();
+            var data = _dataOperationService.GetAll(name);
             return Ok(data);
         }
-
-        [HttpGet]
-        [Route("api/[controller]/GetFiltered")]
-        public dynamic GetFiltered(string name) => _dataOperationService.GetFiltered(name);
     }
 }
