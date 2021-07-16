@@ -11,13 +11,13 @@ namespace AzureTS.API.Services
 
         public DataOperationService(string tableName)
         {
-            var csAccount = AtsAccountCreator.CreateAccount();
+            var csAccount = AtsAccountCreator.GetValidatedStorageAccount();
             var tableClient = csAccount.CreateCloudTableClient();
 
             _cloudTable = tableClient.GetTableReference(tableName);
         }
 
-        public dynamic GetAll(string? name, string? dateTime)
+        public List<SoloEntity> GetAll(string? name, string? dateTime)
         {
             TableContinuationToken token = null;
             var entities = new List<SoloEntity>();
@@ -36,7 +36,7 @@ namespace AzureTS.API.Services
             return entities;
         }
 
-        private TableQuery<SoloEntity> GenerateTheTableQuery(string? name, string? dateTime)
+        private static TableQuery<SoloEntity> GenerateTheTableQuery(string? name, string? dateTime)
         {
             var tableQuery = new TableQuery<SoloEntity>();
 
