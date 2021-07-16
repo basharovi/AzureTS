@@ -1,5 +1,4 @@
-﻿using AzureTS.API.Additonal;
-using AzureTS.API.Services;
+﻿using AzureTS.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AzureTS.API.Controllers
@@ -7,18 +6,14 @@ namespace AzureTS.API.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        private readonly DataOperationService _dataOperationService;
-
-        public HomeController()
-        {
-            _dataOperationService = new DataOperationService(Constants.TableName);
-        }
 
         [HttpGet]
         [Route("api/[controller]/FetchAzureData")]
-        public IActionResult GetAll(string? name)
+        public IActionResult GetAll(string tableName, string? name)
         {
-            var data = _dataOperationService.GetAll(name);
+            var operationService = new DataOperationService(tableName);
+
+            var data = operationService.GetAll(name);
             return Ok(data);
         }
     }
