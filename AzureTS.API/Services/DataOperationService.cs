@@ -1,10 +1,7 @@
 ﻿using AzureTS.API.Additonal;
 using AzureTS.API.Models;
 using Microsoft.Azure.Cosmos.Table;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AzureTS.API.Services
 {
@@ -20,16 +17,12 @@ namespace AzureTS.API.Services
             _cloudTable = tableClient.GetTableReference(tableName);
         }
 
-        public dynamic GetAll(string? name)
+        public dynamic GetAll(string? name, string? dateTime)
         {
             TableContinuationToken token = null;
             var entities = new List<SoloEntity>();
 
-            var tableQuery = new TableQuery<SoloEntity>();
-
-            if (!string.IsNullOrWhiteSpace(name))
-                tableQuery = tableQuery.Where(TableQuery.GenerateFilterCondition(
-                    "name", QueryComparisons.Equal, name));
+            var tableQuery = GenerateTheTableQuery(name, dateTime);
 
             do
             {
@@ -41,6 +34,34 @@ namespace AzureTS.API.Services
             } while (token != null);
 
             return entities;
+        }
+
+        private TableQuery<SoloEntity> GenerateTheTableQuery(string? name, string? dateTime)
+        {
+            var tableQuery = new TableQuery<SoloEntity>();
+
+            if (!string.IsNullOrWhiteSpace(name) && dateTime != null)
+            {
+                var filter = TableQuery.CombineFilters(
+                    TableQuery.GenerateFilterCondition("name", QueryComparisons.Equal, name),
+                    TableOperators.And,
+                    TableQuery.GenerateFilterCondition("time", QueryComparisons.Equal, dateTime));
+
+                tableQuery = tableQuery.Where(filter);
+            }
+            else if (!string.IsNullOrWhiteSpace(name) || dateTime != null)
+            {
+                string filter;
+
+                if (dateTime == null)
+                    filter = TableQuery.GenerateFilterCondition("name", QueryComparisons.Equal, name);
+                else
+                    filter = TableQuery.GenerateFilterCondition("time", QueryComparisons.Equal, dateTime);
+
+                tableQuery = tableQuery.Where(filter);
+            }
+
+            return tableQuery;
         }
     }
 }

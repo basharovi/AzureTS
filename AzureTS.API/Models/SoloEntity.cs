@@ -30,9 +30,9 @@ namespace AzureTS.API.Models
                 Speed = (double)properties["speed"].DoubleValue;
                 Time = properties["time"].StringValue;
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException ex)
             {
-                Head = ((double)properties["head"].).ToString();
+                Head = ((double)properties["head"].DoubleValue).ToString();
             }
 
         }

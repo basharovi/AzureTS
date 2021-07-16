@@ -1,5 +1,6 @@
 ﻿using AzureTS.API.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace AzureTS.API.Controllers
 {
@@ -9,11 +10,11 @@ namespace AzureTS.API.Controllers
 
         [HttpGet]
         [Route("api/[controller]/FetchAzureData")]
-        public IActionResult GetAll(string tableName, string? name)
+        public IActionResult GetAll(string tableName, string? name, string? dateTime)
         {
             var operationService = new DataOperationService(tableName);
 
-            var data = operationService.GetAll(name);
+            var data = operationService.GetAll(name, dateTime);
             return Ok(data);
         }
     }
