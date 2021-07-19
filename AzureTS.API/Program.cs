@@ -15,7 +15,7 @@ namespace AzureTS.API
 
             var configBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env}.json", false, true)
+                //.AddJsonFile($"appsettings.Developmnet.json", false, true)
                 .Build();
 
             Log.Logger = new LoggerConfiguration()

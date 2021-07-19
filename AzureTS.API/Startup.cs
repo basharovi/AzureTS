@@ -19,7 +19,7 @@ namespace AzureTS.API
             var builder = new ConfigurationBuilder()
                  .SetBasePath(env.ContentRootPath)
                  .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false)
+                 .AddJsonFile($"appsettings.Development.json", optional: true)
                  .AddEnvironmentVariables();
 
             Configuration = builder.Build();
