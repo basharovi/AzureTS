@@ -11,3 +11,9 @@ export class Entity{
     timestamp: Date | undefined
 
 }
+
+export class EntityVm{
+    name: string = "";
+    tableName: string = "";
+    time: string = ""
+}

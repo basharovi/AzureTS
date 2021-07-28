@@ -10,11 +10,21 @@ namespace AzureTS.API.Controllers
 
         [HttpGet]
         [Route("api/[controller]/FetchData")]
-        public IActionResult GetAll(string tableName, string? name, string? dateTime)
+        public IActionResult GetAll(string tableName, string? name, string? time)
         {
             var operationService = new DataOperationService(tableName);
 
-            var data = operationService.GetAll(name, dateTime).Take(10);
+            var data = operationService.GetAll(name, time).Take(10);
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("api/[controller]/FetchNames")]
+        public IActionResult GetAll(string tableName)
+        {
+            var operationService = new DataOperationService(tableName);
+
+            var data = operationService.GetAll(null, null).Select(x=> x.Name).ToList();
             return Ok(data);
         }
     }
