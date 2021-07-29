@@ -7,7 +7,6 @@ namespace AzureTS.API.Controllers
     [ApiController]
     public class AzureTableController : ControllerBase
     {
-
         [HttpGet]
         [Route("api/[controller]/FetchData")]
         public IActionResult GetAll(string tableName, string? name, string? time)
