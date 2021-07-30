@@ -1,5 +1,5 @@
-﻿using Microsoft.Azure.Cosmos.Table;
-using System;
+﻿using System;
+using Microsoft.Azure.Cosmos.Table;
 using System.Collections.Generic;
 
 namespace AzureTS.API.Models

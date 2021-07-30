@@ -6,6 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapBoxComponent } from './map-box/map-box.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { FormsModule } from '@angular/forms';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -14,9 +19,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    SelectDropDownModule,
+    FormsModule,
+    OwlDateTimeModule,
+     OwlNativeDateTimeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
 ﻿using AzureTS.API.Additonal;
 using AzureTS.API.Models;
 using Microsoft.Azure.Cosmos.Table;
+using System;
 using System.Collections.Generic;
 
 namespace AzureTS.API.Services
@@ -22,7 +23,12 @@ namespace AzureTS.API.Services
             TableContinuationToken token = null;
             var entities = new List<SoloEntity>();
 
-            var tableQuery = GenerateTheTableQuery(name, dateTime);
+            var time = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(dateTime))
+                time = Convert.ToDateTime(dateTime).ToString("yyyy-MM-ddTHH:mm:ssK");
+
+            var tableQuery = GenerateTheTableQuery(name, time);
 
             do
             {

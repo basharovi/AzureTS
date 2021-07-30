@@ -26,6 +26,7 @@ namespace AzureTS.API
             {
                 Log.Information("Application Starting up");
                 CreateHostBuilder(args).Build().Run();
+
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { ApiService } from '../shared/api.service';
+import { EntityVm } from '../shared/entity.model';
 import { MapConstants, mapConstants as mapConst } from './../environments/environment';
 
 @Component({
@@ -12,10 +13,15 @@ export class MapBoxComponent implements OnInit {
 
   map: any;
   mapConstants: MapConstants;
+  listOfNames: any = [];
+
+  inputName: string = "";
+  inputTime: Date = new Date;
 
   constructor(private apiService: ApiService) {
     this.mapConstants = new MapConstants();
     this.apiService.fetchAllData();
+    this.apiService.fetchNames();
   }
 
   ngOnInit(): void {
@@ -38,6 +44,12 @@ export class MapBoxComponent implements OnInit {
     });
 
   }
+
+  config = {
+    displayKey: "name", // if objects array passed which key to be displayed defaults to description
+    search: true,
+    limitTo: 10,
+  };
 
   addGeoJsonLine() {
 
@@ -75,4 +87,15 @@ export class MapBoxComponent implements OnInit {
     this.map.removeLayer('route');
     this.map.removeSource('route');
   };
+
+  loadNames(){
+    return this.apiService.names;
+  }
+
+  filterMapData(){
+    this.apiService.entityVm.name = this.inputName;
+    this.apiService.entityVm.time = this.inputTime.toISOString();
+
+    this.apiService.fetchFilteredData();
+  }
 }
