@@ -23,12 +23,7 @@ namespace AzureTS.API.Services
             TableContinuationToken token = null;
             var entities = new List<SoloEntity>();
 
-            var time = string.Empty;
-
-            if (!string.IsNullOrWhiteSpace(dateTime))
-                time = Convert.ToDateTime(dateTime).ToString("yyyy-MM-ddTHH:mm:ssK");
-
-            var tableQuery = GenerateTheTableQuery(name, time);
+            var tableQuery = GenerateTheTableQuery(name, GetFormattedTime(dateTime));
 
             do
             {
@@ -68,6 +63,17 @@ namespace AzureTS.API.Services
             }
 
             return tableQuery;
+        }
+
+        private string GetFormattedTime(string dateTime)
+        {
+            if (string.IsNullOrWhiteSpace(dateTime))
+                return dateTime;
+
+            var formattedDateTime = Convert.ToDateTime(dateTime).AddHours(2)
+                .ToString("yyyy-MM-ddTHH:mm:ssK").Replace("+06", "+08");
+
+            return formattedDateTime;
         }
     }
 }
