@@ -1,2 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
+@import "~@ng-select/ng-select/themes/material.theme.css";
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css);
+

@@ -5,21 +5,27 @@
 <div class="card">
     <div class="card-body">
         <div class="form-row">
-            <div class="row offset-md-1 col-md-2">
-                <label class="ml-3">Names:</label>
-                <ngx-select-dropdown [config]="config" [(ngModel)]="inputName"
-                class="col-md-12" [options]="loadNames()"></ngx-select-dropdown>
+            <div class="row offset-md-1 col-md-4">
+                <label class="mt-4">Name:</label>
+                <ng-select [items]="loadNames()" 
+                        bindLabel="name"
+                        bindValue="name"
+                        class="col-md-10"
+                        [(ngModel)]="inputName">
+                </ng-select>
             </div>
-            <div class="row offset-md-1 col-md-2">
-                <input [(ngModel)]="inputTime" [owlDateTime]="fromdatepicker" placeholder="Date Time" class="form-control" name="fromDate">
+            <div class="row col-md-3 mt-3">
+                <input [(ngModel)]="inputTime" [owlDateTime]="fromdatepicker" style="height: 40px"
+                placeholder="Date Time"  name="fromDate"
+                class="col-md-10">
                     <owl-date-time #fromdatepicker></owl-date-time>
-                    <span [owlDateTimeTrigger]="fromdatepicker" class="trigger">icon
+                    <span [owlDateTimeTrigger]="fromdatepicker" class="trigger ml-2 mt-2">
                         <i class="fa fa-calendar"></i>
                     </span>
             </div>
            
             <div class="offset-md-1 col-md-1">
-                <input class="btn btn-primary mt-4" (click)="filterMapData()"  type="button" value="Search"/>
+                <input class="btn btn-primary mt-2" (click)="filterMapData()"  type="button" value="Search"/>
             </div>
         </div>
     </div>

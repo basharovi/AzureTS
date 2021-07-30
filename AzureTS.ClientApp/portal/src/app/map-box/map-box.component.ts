@@ -16,7 +16,7 @@ export class MapBoxComponent implements OnInit {
   listOfNames: any = [];
 
   inputName: string = "";
-  inputTime: Date = new Date;
+  inputTime: Date | undefined;
 
   constructor(private apiService: ApiService) {
     this.mapConstants = new MapConstants();
@@ -94,7 +94,9 @@ export class MapBoxComponent implements OnInit {
 
   filterMapData(){
     this.apiService.entityVm.name = this.inputName;
-    this.apiService.entityVm.time = this.inputTime.toISOString();
+    
+    if(this.inputTime != null )
+      this.apiService.entityVm.time = this.inputTime?.toISOString();
 
     this.apiService.fetchFilteredData();
   }

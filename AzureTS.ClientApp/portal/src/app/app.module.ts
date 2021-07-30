@@ -10,6 +10,7 @@ import { SelectDropDownModule } from 'ngx-select-dropdown';
 import { FormsModule } from '@angular/forms';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     OwlDateTimeModule,
      OwlNativeDateTimeModule,
+     NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

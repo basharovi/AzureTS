@@ -46,7 +46,7 @@ namespace AzureTS.API.Services
         {
             var tableQuery = new TableQuery<SoloEntity>();
 
-            if (!string.IsNullOrWhiteSpace(name) && dateTime != null)
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(dateTime))
             {
                 var filter = TableQuery.CombineFilters(
                     TableQuery.GenerateFilterCondition("name", QueryComparisons.Equal, name),
@@ -55,7 +55,7 @@ namespace AzureTS.API.Services
 
                 tableQuery = tableQuery.Where(filter);
             }
-            else if (!string.IsNullOrWhiteSpace(name) || dateTime != null)
+            else if (!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(dateTime))
             {
                 string filter;
 

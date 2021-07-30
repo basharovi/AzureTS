@@ -16,3 +16,6 @@
       font-style: italic;
       cursor: pointer;
   }
+  .trigger{
+    cursor: pointer;
+  }
