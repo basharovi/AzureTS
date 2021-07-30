@@ -25,33 +25,31 @@ export class MapBoxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initializeMap();
+    this.initializeMap(mapConst.long, mapConst.lat);
 
-    this.mapEntites();
+    this.mapEntites(false);
   }
 
   delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-  initializeMap() {
+  initializeMap(lng: number, lat: number) {
+
+    // this.mapConstants = new MapConstants();
 
     this.map = new mapboxgl.Map({
       accessToken: mapConst.accessToken,
       container: "map",
       style: mapConst.style,
-      center: [mapConst.long, mapConst.lat],
+      center: [lng, lat],
       zoom: mapConst.mapZoom,
       attributionControl: false
     });
 
   }
 
-  config = {
-    displayKey: "name", // if objects array passed which key to be displayed defaults to description
-    search: true,
-    limitTo: 10,
-  };
-
-  addGeoJsonLine() {
+  addGeoJsonLine(isFilter: boolean) {
+    if(isFilter)
+      this.onClickRemove();
 
     this.map.addSource('route', this.mapConstants.geoJsonObject);
     console.log('Source Added');
@@ -60,23 +58,31 @@ export class MapBoxComponent implements OnInit {
     console.log('Layer Added');
   }
 
-  async mapEntites() {
+  async mapEntites(isFilter: boolean) {
 
     // wait until backend datas are processed;
     if(this.apiService.entities.length < 1){
       await this.delay(2 * 1000);
-      this.mapEntites();
+      this.mapEntites(isFilter);
       return;
     }
     const cordinates = [] as any;
 
+    // let lngSum = 0;
+    // let latSum = 0;
     this.apiService.entities.forEach(entity => {
+      // lngSum += entity.lng;
+      // latSum += entity.lat;
       cordinates.push([entity.lng, entity.lat]);
     });
 
     this.mapConstants.geoJsonObject.data.geometry.coordinates = cordinates;
 
-    this.addGeoJsonLine();
+    // let lngAvg = lngSum / cordinates.length;
+    // let latAvg = latSum / cordinates.length;
+   
+    // this.initializeMap(lngAvg, latAvg);
+    this.addGeoJsonLine(isFilter);
   }
 
   onClick = () => {
@@ -94,10 +100,12 @@ export class MapBoxComponent implements OnInit {
 
   filterMapData(){
     this.apiService.entityVm.name = this.inputName;
-    
+
     if(this.inputTime != null )
       this.apiService.entityVm.time = this.inputTime?.toISOString();
 
     this.apiService.fetchFilteredData();
+
+    this.mapEntites(true);
   }
 }

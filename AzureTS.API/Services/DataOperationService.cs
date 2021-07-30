@@ -59,7 +59,7 @@ namespace AzureTS.API.Services
             {
                 string filter;
 
-                if (dateTime == null)
+                if (string.IsNullOrWhiteSpace(dateTime))
                     filter = TableQuery.GenerateFilterCondition("name", QueryComparisons.Equal, name);
                 else
                     filter = TableQuery.GenerateFilterCondition("time", QueryComparisons.Equal, dateTime);
