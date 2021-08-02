@@ -3,6 +3,7 @@ using AzureTS.API.Models;
 using Microsoft.Azure.Cosmos.Table;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AzureTS.API.Services
 {
@@ -34,7 +35,7 @@ namespace AzureTS.API.Services
 
             } while (token != null);
 
-            return entities;
+            return entities.Take(100).ToList();
         }
 
         private static TableQuery<SoloEntity> GenerateTheTableQuery(string? name, string? dateTime)
@@ -57,7 +58,8 @@ namespace AzureTS.API.Services
                 if (string.IsNullOrWhiteSpace(dateTime))
                     filter = TableQuery.GenerateFilterCondition("name", QueryComparisons.Equal, name);
                 else
-                    filter = TableQuery.GenerateFilterCondition("time", QueryComparisons.Equal, dateTime);
+                    filter = TableQuery.GenerateFilterConditionForDate("timestamp", QueryComparisons.GreaterThan,
+                        Convert.ToDateTime(dateTime));
 
                 tableQuery = tableQuery.Where(filter);
             }

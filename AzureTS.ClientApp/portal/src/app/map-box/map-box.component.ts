@@ -20,14 +20,16 @@ export class MapBoxComponent implements OnInit {
 
   constructor(private apiService: ApiService) {
     this.mapConstants = new MapConstants();
-    this.apiService.fetchAllData();
     this.apiService.fetchNames();
+    this.apiService.fetchAllData();
   }
 
   ngOnInit(): void {
     this.initializeMap(mapConst.long, mapConst.lat);
 
     this.mapEntites(false);
+
+    
   }
 
   delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -44,6 +46,9 @@ export class MapBoxComponent implements OnInit {
       zoom: mapConst.mapZoom,
       attributionControl: false
     });
+
+    // Add zoom and rotation controls to the map.
+    this.map.addControl(new mapboxgl.NavigationControl());
 
   }
 
@@ -68,20 +73,21 @@ export class MapBoxComponent implements OnInit {
     }
     const cordinates = [] as any;
 
-    // let lngSum = 0;
-    // let latSum = 0;
+    let lngSum = 0;
+    let latSum = 0;
     this.apiService.entities.forEach(entity => {
-      // lngSum += entity.lng;
-      // latSum += entity.lat;
+      lngSum += entity.lng;
+      latSum += entity.lat;
       cordinates.push([entity.lng, entity.lat]);
     });
 
     this.mapConstants.geoJsonObject.data.geometry.coordinates = cordinates;
 
-    // let lngAvg = lngSum / cordinates.length;
-    // let latAvg = latSum / cordinates.length;
+    let lngAvg = lngSum / cordinates.length;
+    let latAvg = latSum / cordinates.length;
    
     // this.initializeMap(lngAvg, latAvg);
+    this.flyToTheLocation(lngAvg, latAvg);
     this.addGeoJsonLine(isFilter);
   }
 
@@ -107,5 +113,14 @@ export class MapBoxComponent implements OnInit {
     this.apiService.fetchFilteredData();
 
     this.mapEntites(true);
+  }
+
+  flyToTheLocation(lng: number, lat: number){
+    this.map.flyTo({
+      center: [
+      lng, lat
+      ],
+      essential: true
+      });
   }
 }
