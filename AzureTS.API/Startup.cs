@@ -49,6 +49,7 @@ namespace AzureTS.API
 
             app.UseCors(options =>
                 options.WithOrigins("http://localhost:4200")
+                        .WithOrigins("http://localhost:2345")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 
