@@ -27,5 +27,15 @@ namespace AzureTS.API.Controllers
             var data = operationService.GetAll(null, null).Select(x=> x.Name);
             return Ok(data);
         }
+
+        [HttpGet]
+        [Route("api/[controller]/FetchTableNames")]
+        public IActionResult GetAll()
+        {
+            var operationService = new DataOperationService();
+
+            var data = operationService.GetAllTableNames();
+            return Ok(data);
+        }
     }
 }

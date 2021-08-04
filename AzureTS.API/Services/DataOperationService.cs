@@ -10,13 +10,17 @@ namespace AzureTS.API.Services
     public class DataOperationService
     {
         private readonly CloudTable _cloudTable;
+        private readonly CloudTableClient _tableClient;
 
-        public DataOperationService(string tableName)
+        public DataOperationService()
         {
             var csAccount = AtsAccountCreator.GetValidatedStorageAccount();
-            var tableClient = csAccount.CreateCloudTableClient();
+            _tableClient = csAccount.CreateCloudTableClient();
+        }
 
-            _cloudTable = tableClient.GetTableReference(tableName);
+        public DataOperationService(string tableName) : this ()
+        {
+            _cloudTable = _tableClient.GetTableReference(tableName);
         }
 
         public List<SoloEntity> GetAll(string? name, string? dateTime)
@@ -36,6 +40,13 @@ namespace AzureTS.API.Services
             } while (token != null);
 
             return entities.Take(100).ToList();
+        }
+
+        public List<string> GetAllTableNames()
+        {
+            var tableList = _tableClient.ListTables().Select(x => x.Name).ToList();
+
+            return tableList;
         }
 
         private static TableQuery<SoloEntity> GenerateTheTableQuery(string? name, string? dateTime)
