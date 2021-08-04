@@ -18,17 +18,17 @@ namespace AzureTS.API.Services
             _tableClient = csAccount.CreateCloudTableClient();
         }
 
-        public DataOperationService(string tableName) : this ()
+        public DataOperationService(string tableName) : this()
         {
             _cloudTable = _tableClient.GetTableReference(tableName);
         }
 
-        public List<SoloEntity> GetAll(string? name, string? dateTime)
+        public List<SoloEntity> GetAll(string? name, string? fromDate, string? toDate)
         {
             TableContinuationToken token = null;
             var entities = new List<SoloEntity>();
 
-            var tableQuery = GenerateTheTableQuery(name, GetFormattedTime(dateTime));
+            var tableQuery = GenerateTheTableQuery(name, GetFormattedTime(fromDate), GetFormattedTime(toDate));
 
             do
             {
@@ -49,29 +49,36 @@ namespace AzureTS.API.Services
             return tableList;
         }
 
-        private static TableQuery<SoloEntity> GenerateTheTableQuery(string? name, string? dateTime)
+        private static TableQuery<SoloEntity> GenerateTheTableQuery(string? name, string? fromDate, string? toDate)
         {
             var tableQuery = new TableQuery<SoloEntity>();
 
-            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(dateTime))
+            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(fromDate))
             {
                 var filter = TableQuery.CombineFilters(
                     TableQuery.GenerateFilterCondition("name", QueryComparisons.Equal, name),
                     TableOperators.And,
-                    TableQuery.GenerateFilterCondition("time", QueryComparisons.Equal, dateTime));
+                    TableQuery.CombineFilters(
+                    TableQuery.GenerateFilterCondition("time", QueryComparisons.GreaterThanOrEqual, fromDate),
+                    TableOperators.And,
+                    TableQuery.GenerateFilterCondition("time", QueryComparisons.LessThanOrEqual, toDate)));
 
                 tableQuery = tableQuery.Where(filter);
             }
-            else if (!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(dateTime))
+            else if (!string.IsNullOrWhiteSpace(name) || !string.IsNullOrWhiteSpace(fromDate))
             {
                 string filter;
 
-                if (string.IsNullOrWhiteSpace(dateTime))
+                if (!string.IsNullOrWhiteSpace(name))
                     filter = TableQuery.GenerateFilterCondition("name", QueryComparisons.Equal, name);
                 else
-                    filter = TableQuery.GenerateFilterConditionForDate("timestamp", QueryComparisons.GreaterThan,
-                        Convert.ToDateTime(dateTime));
-
+                {
+                    filter = TableQuery.CombineFilters(
+                    TableQuery.GenerateFilterCondition("time", QueryComparisons.GreaterThanOrEqual, fromDate),
+                    TableOperators.And,
+                    TableQuery.GenerateFilterCondition("time", QueryComparisons.LessThanOrEqual, toDate));
+                }
+                    
                 tableQuery = tableQuery.Where(filter);
             }
 
@@ -83,8 +90,7 @@ namespace AzureTS.API.Services
             if (string.IsNullOrWhiteSpace(dateTime))
                 return dateTime;
 
-            var formattedDateTime = Convert.ToDateTime(dateTime).AddHours(2)
-                .ToString("yyyy-MM-ddTHH:mm:ssK").Replace("+06", "+08");
+            var formattedDateTime = Convert.ToDateTime(dateTime).ToString("yyyy-MM-ddTHH:mmss");
 
             return formattedDateTime;
         }
