@@ -11,19 +11,20 @@ export class ApiService {
   entities: Entity[] = [];
   entityVm: EntityVm = new EntityVm();
   names: any = [];
+  tableName: string = 'VTMagtec';
 
   constructor(private httpClient: HttpClient) { }
 
   fetchAllData() {
 
-    this.httpClient.get(this.baseUrl + "api/AzureTable/FetchData" + "?tableName=VTMagtec")
+    this.httpClient.get(this.baseUrl + "api/AzureTable/FetchData" + "?tableName=" + this.tableName)
       .subscribe(response => this.entities = response as Entity[]
         );
   }
 
   fetchFilteredData() {
 
-    var hitUrl = this.baseUrl + "api/AzureTable/FetchData" + "?tableName=VTMagtec&" + this.toQueryString(this.entityVm);
+    var hitUrl = this.baseUrl + "api/AzureTable/FetchData" + "?tableName=" + this.tableName +"&" + this.toQueryString(this.entityVm);
     console.log(hitUrl);
 
     this.httpClient.get(hitUrl)
@@ -33,7 +34,7 @@ export class ApiService {
 
   fetchNames() {
 
-    this.httpClient.get(this.baseUrl + "api/AzureTable/FetchNames" + "?tableName=VTMagtec")
+    this.httpClient.get(this.baseUrl + "api/AzureTable/FetchNames" + "?tableName="+ this.tableName)
       .subscribe(response => this.names = response as []
         );
   }
