@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FormsModule,
     OwlDateTimeModule,
      OwlNativeDateTimeModule,
-     NgSelectModule
+     NgSelectModule,
+     NgxDaterangepickerMd.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

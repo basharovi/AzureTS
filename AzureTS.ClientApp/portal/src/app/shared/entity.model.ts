@@ -15,5 +15,6 @@ export class Entity{
 export class EntityVm{
     name: string = "";
     tableName: string = "";
-    time: string = ""
+    fromDate: string = "";
+    toDate: string = "";
 }

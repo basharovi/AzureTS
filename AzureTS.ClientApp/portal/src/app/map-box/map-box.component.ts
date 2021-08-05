@@ -16,7 +16,7 @@ export class MapBoxComponent implements OnInit {
   listOfNames: any = [];
 
   inputName: string = "";
-  inputTime: Date | undefined;
+  selectedDates: any;
 
   constructor(private apiService: ApiService) {
     this.mapConstants = new MapConstants();
@@ -27,16 +27,16 @@ export class MapBoxComponent implements OnInit {
   ngOnInit(): void {
     this.initializeMap(mapConst.long, mapConst.lat);
 
-    this.mapEntites(false);
+    this.mapEntites();
+  }
 
-    
+  isInvalidDate(date: { weekday: () => number; }) {
+    return date.weekday() === 0;
   }
 
   delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   initializeMap(lng: number, lat: number) {
-
-    // this.mapConstants = new MapConstants();
 
     this.map = new mapboxgl.Map({
       accessToken: mapConst.accessToken,
@@ -52,10 +52,8 @@ export class MapBoxComponent implements OnInit {
 
   }
 
-  addGeoJsonLine(isFilter: boolean) {
-    if(isFilter)
-      this.onClickRemove();
-
+  addGeoJsonLine() {
+    
     this.map.addSource('route', this.mapConstants.geoJsonObject);
     console.log('Source Added');
 
@@ -63,12 +61,12 @@ export class MapBoxComponent implements OnInit {
     console.log('Layer Added');
   }
 
-  async mapEntites(isFilter: boolean) {
+  async mapEntites() {
 
     // wait until backend datas are processed;
     if(this.apiService.entities.length < 1){
       await this.delay(2 * 1000);
-      this.mapEntites(isFilter);
+      this.mapEntites();
       return;
     }
     const cordinates = [] as any;
@@ -88,12 +86,8 @@ export class MapBoxComponent implements OnInit {
    
     // this.initializeMap(lngAvg, latAvg);
     this.flyToTheLocation(lngAvg, latAvg);
-    this.addGeoJsonLine(isFilter);
+    this.addGeoJsonLine();
   }
-
-  onClick = () => {
-    // this.mapEntites();
-  };
 
   onClickRemove = () => {
     this.map.removeLayer('route');
@@ -107,12 +101,16 @@ export class MapBoxComponent implements OnInit {
   filterMapData(){
     this.apiService.entityVm.name = this.inputName;
 
-    if(this.inputTime != null )
-      this.apiService.entityVm.time = this.inputTime?.toISOString();
+    if(this.selectedDates != null ){
+      this.apiService.entityVm.fromDate = this.selectedDates.startDate?.toJSON();
+      this.apiService.entityVm.toDate = this.selectedDates.endDate?.toJSON();
+    }
 
     this.apiService.fetchFilteredData();
+   
+    this.onClickRemove();
 
-    this.mapEntites(true);
+    this.mapEntites();
   }
 
   flyToTheLocation(lng: number, lat: number){

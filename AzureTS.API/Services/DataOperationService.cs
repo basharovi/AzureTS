@@ -39,7 +39,7 @@ namespace AzureTS.API.Services
 
             } while (token != null);
 
-            return entities.Take(100).ToList();
+            return entities;
         }
 
         public List<string> GetAllTableNames()
@@ -47,6 +47,17 @@ namespace AzureTS.API.Services
             var tableList = _tableClient.ListTables().Select(x => x.Name).ToList();
 
             return tableList;
+        }
+
+        public List<string> GetAllNames()
+        {
+            var result = GetAll(null, null, null)
+                .GroupBy(x => x.Name)
+                .Select(x => x.FirstOrDefault())
+                .Select(x => x.Name)
+                .ToList();
+
+            return result;
         }
 
         private static TableQuery<SoloEntity> GenerateTheTableQuery(string? name, string? fromDate, string? toDate)
@@ -90,7 +101,7 @@ namespace AzureTS.API.Services
             if (string.IsNullOrWhiteSpace(dateTime))
                 return dateTime;
 
-            var formattedDateTime = Convert.ToDateTime(dateTime).ToString("yyyy-MM-ddTHH:mmss");
+            var formattedDateTime = Convert.ToDateTime(dateTime).ToString("yyyy-MM-ddTHH:mm:ss");
 
             return formattedDateTime;
         }
