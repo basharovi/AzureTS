@@ -7,10 +7,11 @@
         <div class="form-row">
             <div class="row offset-md-1 col-md-4">
                 <label class="mt-4">Name:</label>
-                <ng-select [items]="loadNames()" 
+                <ng-select [items]="loadNames()"
                         bindLabel="name"
                         bindValue="name"
                         class="col-md-10"
+                        aria-placeholder="Select Name"
                         [(ngModel)]="inputName">
                 </ng-select>
             </div>
@@ -25,12 +26,17 @@
                     [(ngModel)]="selectedDates"
                     placeholder="Date Time"
                     class="form-control"/>
-                    
+
             </div>
            
             <div class="offset-md-1 col-md-1">
                 <input class="btn btn-primary mt-2" (click)="filterMapData()"  type="button" value="Search"/>
             </div>
+        </div>
+        <div>
+            <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" 
+            type = "square-jelly-box" [fullScreen] = "true">
+            <p style="color: white" >Map Data Loading... </p></ngx-spinner>
         </div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from '../shared/api.service';
 import { EntityVm } from '../shared/entity.model';
 import { MapConstants, mapConstants as mapConst } from './../environments/environment';
@@ -18,7 +19,8 @@ export class MapBoxComponent implements OnInit {
   inputName: string = "";
   selectedDates: any;
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService,
+    private spinner: NgxSpinnerService) {
     this.mapConstants = new MapConstants();
     this.apiService.fetchNames();
     this.apiService.fetchAllData();
@@ -28,6 +30,8 @@ export class MapBoxComponent implements OnInit {
     this.initializeMap(mapConst.long, mapConst.lat);
 
     this.mapEntites();
+
+    this.ShowSpinner(true);
   }
 
   isInvalidDate(date: { weekday: () => number; }) {
@@ -50,6 +54,13 @@ export class MapBoxComponent implements OnInit {
     // Add zoom and rotation controls to the map.
     this.map.addControl(new mapboxgl.NavigationControl());
 
+  }
+
+  ShowSpinner(input: boolean){
+    if(input)
+      this.spinner.show();
+    else
+      this.spinner.hide();
   }
 
   addGeoJsonLine() {
@@ -87,6 +98,8 @@ export class MapBoxComponent implements OnInit {
     // this.initializeMap(lngAvg, latAvg);
     this.flyToTheLocation(lngAvg, latAvg);
     this.addGeoJsonLine();
+
+    this.ShowSpinner(false);
   }
 
   onClickRemove = () => {
@@ -99,12 +112,12 @@ export class MapBoxComponent implements OnInit {
   }
 
   filterMapData(){
+    this.ShowSpinner(true);
+
     this.apiService.entityVm.name = this.inputName;
 
-    if(this.selectedDates != null ){
-      this.apiService.entityVm.fromDate = this.selectedDates.startDate?.toJSON();
-      this.apiService.entityVm.toDate = this.selectedDates.endDate?.toJSON();
-    }
+    this.apiService.entityVm.fromDate = this.selectedDates.startDate?.toJSON();
+    this.apiService.entityVm.toDate = this.selectedDates.endDate?.toJSON();
 
     this.apiService.fetchFilteredData();
    

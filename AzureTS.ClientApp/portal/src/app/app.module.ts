@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgxSpinnerModule } from "ngx-spinner";
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -30,8 +31,10 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     OwlDateTimeModule,
      OwlNativeDateTimeModule,
      NgSelectModule,
-     NgxDaterangepickerMd.forRoot()
+     NgxDaterangepickerMd.forRoot(),
+     NgxSpinnerModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
 })
