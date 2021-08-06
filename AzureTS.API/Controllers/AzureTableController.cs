@@ -1,7 +1,5 @@
 ﻿using AzureTS.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 
 namespace AzureTS.API.Controllers
 {
@@ -29,15 +27,6 @@ namespace AzureTS.API.Controllers
 
             return Ok(data);
         }
-
-        [HttpGet]
-        [Route("api/[controller]/FetchTableNames")]
-        public IActionResult GetAll()
-        {
-            var operationService = new DataOperationService();
-
-            var data = operationService.GetAllTableNames();
-            return Ok(data);
-        }
+        
     }
 }

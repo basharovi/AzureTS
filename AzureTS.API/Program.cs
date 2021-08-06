@@ -11,11 +11,9 @@ namespace AzureTS.API
     {
         public static void Main(string[] args)
         {
-            var env = Environment.GetEnvironmentVariable(Constants.EnvironmentVariableName, EnvironmentVariableTarget.Process);
 
             var configBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                //.AddJsonFile($"appsettings.Developmnet.json", false, true)
                 .Build();
 
             Log.Logger = new LoggerConfiguration()

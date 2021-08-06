@@ -43,13 +43,6 @@ namespace AzureTS.API.Services
             return entities;
         }
 
-        public List<string> GetAllTableNames()
-        {
-            var tableList = _tableClient.ListTables().Select(x => x.Name).ToList();
-
-            return tableList;
-        }
-
         public List<string> GetAllNames()
         {
             var result = GetAll(null, null, null)
