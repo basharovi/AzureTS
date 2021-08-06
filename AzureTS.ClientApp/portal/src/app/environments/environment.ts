@@ -2,7 +2,7 @@ export const mapConstants =
 {
   lat: 1.34577,
   long: 103.765,
-  mapZoom: 10,
+  mapZoom: 10.75,
   style: 'mapbox://styles/mapbox/streets-v11',
   accessToken: 'pk.eyJ1Ijoic2ZtcyIsImEiOiJjand2czlxMzIwNGZsNDRwZGx2c3gwNWExIn0.aZXFKeOd42x8kkvl1udyKQ'
 };

@@ -73,15 +73,11 @@ export class MapBoxComponent implements OnInit {
   }
 
   async mapEntites() {
-
-    // wait until backend datas are processed;
-    // if(this.apiService.entities.length < 1 && this.waitCount < 20){
-      if(await this.apiService.dataLoaded == false){
-      await this.delay(3 * 1000);
-      this.mapEntites();
-      return;
+    
+    while (await this.apiService.dataLoaded !== true){
+        await this.delay(3 * 1000);
     }
-    console.log(' Fetched All DATA');
+
     this.apiService.dataLoaded = Promise.resolve(false);
 
     const cordinates = [] as any;

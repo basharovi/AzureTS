@@ -15,6 +15,7 @@ namespace AzureTS.API.Controllers
             var operationService = new DataOperationService(tableName);
 
             var data = operationService.GetAll(name, fromDate, toDate);
+
             return Ok(data);
         }
 

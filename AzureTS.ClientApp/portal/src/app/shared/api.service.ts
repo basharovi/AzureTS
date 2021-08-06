@@ -11,7 +11,7 @@ export class ApiService {
   entities: Entity[] = [];
   entityVm: EntityVm = new EntityVm();
   names: any = [];
-  tableName: string = 'VTMagtec';
+  tableName: string = 'VTSolo';
   dataLoaded: Promise<boolean> = Promise.resolve(false);
 
   constructor(private httpClient: HttpClient) { }

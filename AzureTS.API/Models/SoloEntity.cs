@@ -21,20 +21,13 @@ namespace AzureTS.API.Models
 
         public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
         {
-            try
-            {
-                Name = properties["name"].StringValue;
-                Lng = (double)properties["long"].DoubleValue;
-                Lat = (double)properties["lat"].DoubleValue;
-                Head = properties["head"].StringValue;
-                Speed = (double)properties["speed"].DoubleValue;
-                Time = properties["time"].StringValue;
-            }
-            catch (InvalidOperationException)
-            {
-                Head = ((double)properties["head"].DoubleValue).ToString();
-            }
 
+            Name = properties["name"].StringValue;
+            Lng = (double)properties["long"].DoubleValue;
+            Lat = (double)properties["lat"].DoubleValue;
+            Head = properties["head"].ToString();
+            Speed = (double)properties["speed"].DoubleValue;
+            Time = properties["time"].StringValue;
         }
     }
 }
