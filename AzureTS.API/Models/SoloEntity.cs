@@ -19,7 +19,8 @@ namespace AzureTS.API.Models
         public double Speed { get; set; }
         public string Time { get; set; }
 
-        public override void ReadEntity(IDictionary<string, EntityProperty> properties, OperationContext operationContext)
+        public override void ReadEntity(IDictionary<string, 
+            EntityProperty> properties, OperationContext operationContext)
         {
 
             Name = properties["name"].StringValue;

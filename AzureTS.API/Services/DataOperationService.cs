@@ -28,7 +28,8 @@ namespace AzureTS.API.Services
             TableContinuationToken token = null;
             var entities = new List<SoloEntity>();
 
-            var tableQuery = GenerateTheTableQuery(name, GetFormattedTime(fromDate), GetFormattedTime(toDate));
+            var tableQuery = GenerateTheTableQuery(name,
+                GetFormattedTime(fromDate), GetFormattedTime(toDate));
 
             do
             {
@@ -89,19 +90,20 @@ namespace AzureTS.API.Services
                     TableOperators.And,
                     TableQuery.GenerateFilterCondition("time", QueryComparisons.LessThanOrEqual, toDate));
                 }
-                    
+
                 tableQuery = tableQuery.Where(filter);
             }
 
             return tableQuery;
         }
 
-        private string GetFormattedTime(string dateTime)
+        private static string GetFormattedTime(string dateTime)
         {
             if (string.IsNullOrWhiteSpace(dateTime))
                 return dateTime;
 
-            var formattedDateTime = Convert.ToDateTime(dateTime).ToString("yyyy-MM-ddTHH:mm:ss");
+            var formattedDateTime = Convert.ToDateTime(dateTime).
+                                        ToString(Constants.DateTimeFormat);
 
             return formattedDateTime;
         }
