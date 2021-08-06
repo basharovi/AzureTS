@@ -6,12 +6,11 @@
     <div class="card-body">
         <div class="form-row">
             <div class="row offset-md-1 col-md-4">
-                <label class="mt-4">Name:</label>
+                <label class="mt-4">Names:</label>
                 <ng-select [items]="loadNames()"
                         bindLabel="name"
                         bindValue="name"
                         class="col-md-10"
-                        aria-placeholder="Select Name"
                         [(ngModel)]="inputName">
                 </ng-select>
             </div>
@@ -21,8 +20,8 @@
                     ngxDaterangepickerMd
                     [timePicker]="true"
                     [timePickerSeconds]="true"
-                    [timePickerIncrement]="1"
-                    [timePicker24Hour]="false"
+                    [timePickerIncrement]="5"
+                    [timePicker24Hour]="true"
                     [(ngModel)]="selectedDates"
                     placeholder="Date Time"
                     class="form-control"/>
@@ -34,9 +33,9 @@
             </div>
         </div>
         <div>
-            <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" 
+            <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "default" color = "#fff" 
             type = "square-jelly-box" [fullScreen] = "true">
-            <p style="color: white" >Map Data Loading... </p></ngx-spinner>
+            <p style="color: white" >Data Loading... </p></ngx-spinner>
         </div>
     </div>
   </div>

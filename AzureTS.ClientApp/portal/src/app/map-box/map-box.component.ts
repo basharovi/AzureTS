@@ -75,11 +75,15 @@ export class MapBoxComponent implements OnInit {
   async mapEntites() {
 
     // wait until backend datas are processed;
-    if(this.apiService.entities.length < 1){
-      await this.delay(2 * 1000);
+    // if(this.apiService.entities.length < 1 && this.waitCount < 20){
+      if(await this.apiService.dataLoaded == false){
+      await this.delay(3 * 1000);
       this.mapEntites();
       return;
     }
+    console.log(' Fetched All DATA');
+    this.apiService.dataLoaded = Promise.resolve(false);
+
     const cordinates = [] as any;
 
     let lngSum = 0;
@@ -92,11 +96,17 @@ export class MapBoxComponent implements OnInit {
 
     this.mapConstants.geoJsonObject.data.geometry.coordinates = cordinates;
 
-    let lngAvg = lngSum / cordinates.length;
-    let latAvg = latSum / cordinates.length;
-   
-    // this.initializeMap(lngAvg, latAvg);
-    this.flyToTheLocation(lngAvg, latAvg);
+    if(cordinates.length < 1){
+      this.flyToTheLocation(mapConst.long, mapConst.lat);
+    }
+    else{
+      let lngAvg = lngSum / cordinates.length;
+      let latAvg = latSum / cordinates.length;
+     
+      this.flyToTheLocation(lngAvg, latAvg);
+    }
+
+    
     this.addGeoJsonLine();
 
     this.ShowSpinner(false);
@@ -127,11 +137,11 @@ export class MapBoxComponent implements OnInit {
   }
 
   flyToTheLocation(lng: number, lat: number){
-    this.map.flyTo({
-      center: [
-      lng, lat
-      ],
-      essential: true
-      });
+      this.map.flyTo({
+        center: [
+        lng, lat
+        ],
+        essential: true
+        });
   }
 }
