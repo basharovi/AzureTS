@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+    api:
+        build: ./AzureTS.API
+        image: crredas.azurecr.io/ats-api:dev
+        ports:
+              - "2021:80"
+    portal:
+        build: ./AzureTS.ClientApp/portal
+        image: crredas.azurecr.io/ats-portal:dev
+        ports:
+            - "2022:80"
