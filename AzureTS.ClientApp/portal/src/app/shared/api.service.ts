@@ -7,11 +7,13 @@ import { Entity, EntityVm } from './entity.model';
 })
 export class ApiService {
 
-  readonly baseUrl = "https://localhost:44313/";
+  // readonly baseUrl = "https://localhost:44313/";
+  readonly baseUrl = "http://localhost:2021/";
   entities: Entity[] = [];
   entityVm: EntityVm = new EntityVm();
   names: any = [];
   tableName: string = 'VTSolo';
+  // tableName: string = 'VTMagtec';
   dataLoaded: Promise<boolean> = Promise.resolve(false);
 
   constructor(private httpClient: HttpClient) { }
